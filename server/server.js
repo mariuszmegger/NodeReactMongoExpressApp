@@ -8,13 +8,14 @@ const {ObjectID} = require('mongodb');
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
+var {authenticate} = require('./middleware/authenticate');
 
 var app = express();
 const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
-app.post('/todos', (req, res) => {
+app.post('/todos', authenticate, (req, res) => {
   var todo = new Todo({
     text: req.body.text
   });
@@ -32,12 +33,27 @@ app.post('/user/register', (req, res) => {
   var user = new User(body);
 
   user.save().then((doc) => {
-    res.send(doc)
-  },(e) => {
+    return user.generateAuthToken();
+  }).then((token)=>{
+    if(token){
+      res.header('x-auth', token).res.send(doc);
+    }
+  }).catch((e) => {
     res.status(400).send(e);
-  })
+  });
 });
 
+app.post('/user/login', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+
+  user.findByCredentials(body.password, body.email).then((user) => {
+    return user.generateAuthToken().then((token) => {
+      res.header('x-auth', token).send(user);
+    });
+  }).catch((e) => {
+      res.status(400).send();
+  });
+})
 
 app.listen(port, () => {
   console.log(`Started up at port ${port}`);
