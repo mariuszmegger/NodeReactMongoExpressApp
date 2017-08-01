@@ -33,7 +33,7 @@ app.post('/user/register', (req, res) => {
   var user = new User(body);
 
   user.save().then((doc) => {
-    return user.generateAuthToken();
+    return user.generateAuthToken(true);
   }).then((token)=>{
     if(token){
       res.header('x-auth', token).res.send(doc);
@@ -45,9 +45,8 @@ app.post('/user/register', (req, res) => {
 
 app.post('/user/login', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
-
-  user.findByCredentials(body.password, body.email).then((user) => {
-    return user.generateAuthToken().then((token) => {
+  User.findByCredentials(body.email, body.password).then((user) => {
+    return user.generateAuthToken(false).then((token) => {
       res.header('x-auth', token).send(user);
     });
   }).catch((e) => {

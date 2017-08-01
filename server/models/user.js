@@ -34,17 +34,24 @@ var UserSchema = new mongoose.Schema({
   }]
 });
 
-UserSchema.methods.generateAuthToken = function(){
+UserSchema.methods.generateAuthToken = function(isRegister){
   let user = this;
   let access  = 'auth';
   let token = jwt.sign({_id:user._id.toHexString(), access}, 'gffouypiugh').toString();
-  user.tokens.push({access, token});
+
+  if(isRegister){
+    user.tokens.push({access, token});
+  }else{
+    user.tokens[0].token = token;
+  }
   return user.save().then(() =>{
     return token;
   }, (e) => {
     return e;
   });
 }
+
+
 
 UserSchema.statics.findByToken = function(token){
   let user = this;
@@ -61,27 +68,28 @@ UserSchema.statics.findByToken = function(token){
       'tokens.access': 'auth'
   });
 
-  UserSchema.statics.findByCredentials = function(email, password){
-    let user = this;
-    user.find(email).then((user) => {
-      if(!user){
-        return Promise.reject();
-      }
+}
 
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, user.password, (err, res) => {
-          if(res){
-            resolve(user)
-          }else{
-            reject();
-          }
-        });
+UserSchema.statics.findByCredentials = function(email, password){
+  let user = this;
+  return user.findOne({email}).then((user) => {
+    if(!user){
+      return Promise.reject();
+    }
+
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(password, user.password, (err, res) => {
+        if(res){
+          resolve(user)
+        }else{
+          reject();
+        }
       });
     });
-  }
-
-
+  });
 }
+
+
 
 
 
