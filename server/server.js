@@ -29,10 +29,30 @@ app.post('/todos', authenticate, (req, res) => {
 
 app.get('/todos', authenticate, (req, res) => {
   Todo.find({creator: req.user._id}).then((todos) => {
-    res.status(200).send(todos);
+    res.status(200).send({todos});
   }).catch(() => {
     req.status(400).send();
   })
+});
+
+app.get('/todos/:id', authenticate, (req, res) => {
+  var id = req.params.id;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+  Todo.findOne({
+    _id: id,
+    creator: req.user._id
+  }).then((todo) => {
+    if (!todo) {
+      return res.status(404).send();
+    }
+
+    res.send({todo});
+  }).catch((e) => {
+    res.status(400).send();
+  });
 });
 
 app.delete('/todos/delete/:id', authenticate, (req,res) => {
@@ -61,7 +81,7 @@ app.patch('/todos/update/:id', authenticate, (req,res) => {
     body.completedAt = null;
     body.completed = false
   }
-  
+
   Todo.findOneAndUpdate({_id: id, creator: req.user._id}, {$set: body}, {new: true}).then((todo) => {
     if (!todo) {
       return res.status(404).send();
