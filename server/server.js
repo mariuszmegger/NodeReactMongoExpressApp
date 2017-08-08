@@ -48,7 +48,6 @@ app.get('/todos/:id', authenticate, (req, res) => {
     if (!todo) {
       return res.status(404).send();
     }
-
     res.send({todo});
   }).catch((e) => {
     res.status(400).send();
@@ -56,7 +55,11 @@ app.get('/todos/:id', authenticate, (req, res) => {
 });
 
 app.delete('/todos/delete/:id', authenticate, (req,res) => {
-  let id = ObjectID(req.params.id);
+  let id = req.params.id;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
   Todo.findOneAndRemove({_id: id, creator: req.user._id}).then((todo) => {
     if (!todo) {
       return res.status(404).send();
@@ -69,7 +72,7 @@ app.delete('/todos/delete/:id', authenticate, (req,res) => {
 
 app.patch('/todos/update/:id', authenticate, (req,res) => {
   var body = _.pick(req.body, ['text', 'completed']);
-  let id = ObjectID(req.params.id);
+  let id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
@@ -102,8 +105,9 @@ app.post('/user/register', (req, res) => {
   user.save().then((doc) => {
     return user.generateAuthToken(true);
   }).then((token)=>{
+
     if(token){
-      res.header('x-auth', token).res.send(doc);
+      res.header('x-auth', token).status(200).send();
     }
   }).catch((e) => {
     res.status(400).send(e);

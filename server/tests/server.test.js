@@ -10,6 +10,8 @@ const {todos, populateTodos, users, populateUsers} = require('./seed/seed');
 beforeEach(populateUsers);
 beforeEach(populateTodos);
 
+// TODOS --------------------------------------------------------------------------------------
+
 describe('POST /todos', () => {
   it('Should save one todo to database', (done) => {
 
@@ -111,5 +113,263 @@ describe('GET /todos/:id', () => {
         .expect(404)
         .end(done);
     });
-
 });
+
+describe('DELETE /todos/delete/:id', () => {
+  it('Should delete todo when id and creator is valid', (done) => {
+    request(app)
+      .delete(`/todos/delete/${todos[0]._id}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        Todo.findOne({_id: res.body._id}).then((todo) => {
+          expect(todo).toNotExist();
+          done()
+        }).catch((e) => done(e))
+      });
+  });
+
+  it('Should not delete when creator is invalid ', (done) => {
+    request(app)
+      .delete(`/todos/delete/${todos[0]._id}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+
+  it('Should not delete todo and return 404 when id is valid but todo not exists', (done) => {
+    let objectId = new ObjectID();
+
+    request(app)
+      .delete(`/todos/delete/${objectId}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+
+  it('Should not delete todo and return 404 when id is invalid', (done) => {
+    request(app)
+      .delete(`/todos/delete/123`)
+      .set('x-auth', users[0].tokens[0].token)
+      .expect(404)
+      .end(done);
+  });
+});
+
+describe('PATCH /todos/update/:id', () => {
+  it('Should update todo when id and creator is valid - changed text, completed true', (done) => {
+    let text = 'newText';
+    let completed = true;
+    request(app)
+      .patch(`/todos/update/${todos[0]._id}`)
+      .set('x-auth', users[0].tokens[0].token)
+      .send({
+        text,
+        completed
+      })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toBe(text);
+        expect(res.body.todo.completed).toBe(completed);
+        expect(res.body.todo.completedAt).toBeA('number');
+      })
+      .end(done)
+  });
+
+  it('Should update todo when id and creator is valid - changed text, completed false', (done) => {
+    let text = 'newText';
+    let completed = false;
+    request(app)
+      .patch(`/todos/update/${todos[1]._id}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .send({
+        text,
+        completed
+      })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toBe(text);
+        expect(res.body.todo.completed).toBe(completed);
+        expect(res.body.todo.completedAt).toBe(null);
+      })
+      .end(done)
+  });
+
+  it('Should not update todo when creator is inValid ', (done) => {
+    let text = 'newText';
+    let completed = true;
+    request(app)
+      .patch(`/todos/update/${todos[0]._id}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .send({
+        text,
+        completed
+      })
+      .expect(404)
+      .end(done)
+  });
+
+  it('Should not update todo when it not exists ', (done) => {
+    let objectId = new ObjectID();
+    let text = 'newText';
+    let completed = true;
+    request(app)
+      .patch(`/todos/update/${objectId}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .send({
+        text,
+        completed
+      })
+      .expect(404)
+      .end(done)
+  });
+
+  it('Should not update todo when id is invalid ', (done) => {
+    let text = 'newText';
+    let completed = true;
+    request(app)
+      .patch(`/todos/update/123`)
+      .set('x-auth', users[1].tokens[0].token)
+      .send({
+        text,
+        completed
+      })
+      .expect(404)
+      .end(done)
+  });
+});
+
+// USERS --------------------------------------------------------------------------------------
+
+describe('POST /users/register', () => {
+  it('Should create new user', (done) => {
+    let email = 'example3@example.com';
+    let password = 'abc123';
+
+    request(app)
+      .post(`/user/register`)
+      .send({
+        email,
+        password,
+      })
+      .expect(200)
+      .expect((res) => {
+        expect(res.headers['x-auth']).toExist();
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        User.findOne({email}).then((user) => {
+          expect(user).toExist();
+          expect(user.password).toNotBe(password);
+          done();
+        }).catch((e) => done(e));
+      });
+    });
+
+    it('Should not create new user if validation failed (password)', (done) => {
+      let email = 'example3@example.com';
+      let password = 'ab';
+
+      request(app)
+        .post(`/user/register`)
+        .send({
+          email,
+          password,
+        })
+        .expect(400)
+        .end(done);
+    });
+
+    it('Should not create new user if validation failed (email)', (done) => {
+      let email = 'example3';
+      let password = 'abc123';
+
+      request(app)
+        .post(`/user/register`)
+        .send({
+          email,
+          password,
+        })
+        .expect(400)
+        .end(done);
+    });
+
+    it('Should not create new user if the same email exists in database', (done) => {
+      let password = 'abc123';
+
+      request(app)
+        .post(`/user/register`)
+        .send({
+          email: users[0].email,
+          password
+        })
+        .expect(400)
+        .end(done);
+    });
+  });
+
+  describe('POST /user/login', () => {
+    it('Should login user', (done) => {
+      request(app)
+        .post(`/user/login`)
+        .send({
+          email: users[1].email,
+          password: users[1].password
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.email).toBe(users[1].email);
+          expect(res.headers['x-auth']).toExist();
+          expect(res.headers['x-auth']).toNotBe(users[1].tokens.token);
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+
+          User.findById(users[1]._id).then((user) => {
+            expect(user.tokens[1]).toInclude({
+              access: 'auth',
+              token: res.headers['x-auth']
+            });
+            done();
+          }).catch((e) => done(e));
+        });
+    });
+
+    it('Should not login user if credentials not expected', (done) => {
+      request(app)
+        .post(`/user/login`)
+        .send({
+          email: users[1].email,
+          password: users[0].password
+        })
+        .expect(400)
+        .end(done);
+    });
+  });
+
+  describe('DELETE /user/logout', () => {
+    it('Should Logout user and destory a token', (done) => {
+      request(app)
+        .delete(`/user/logout`)
+        .set('x-auth', users[0].tokens[0].token)
+        .expect(200)
+        .end((err, res) =>{
+          if (err) {
+            return done(err);
+          }
+
+          User.findById(users[0]._id).then((user) => {
+            expect(user.tokens.length).toBe(0);
+            done();
+          }).catch((e) => done(e));
+        });
+    });
+  })
