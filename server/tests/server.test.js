@@ -356,7 +356,7 @@ describe('POST /users/register', () => {
   });
 
   describe('DELETE /user/logout', () => {
-    it('Should Logout user and destory a token', (done) => {
+    it('Should Logout user and remove a token', (done) => {
       request(app)
         .delete(`/user/logout`)
         .set('x-auth', users[0].tokens[0].token)
@@ -372,4 +372,28 @@ describe('POST /users/register', () => {
           }).catch((e) => done(e));
         });
     });
-  })
+  });
+
+  describe('GET /users/me', () => {
+    it('Should return user if authenticated', (done) => {
+      request(app)
+        .get('/users/me')
+        .set('x-auth', users[0].tokens[0].token)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body._id).toBe(users[0]._id);
+          expect(res.body.email).toBe(users[0].email);
+        })
+        .end(done);
+    });
+
+    it('should return 401 if not authenticated', (done) => {
+      request(app)
+        .get('/users/me')
+        .expect(401)
+        .expect((res) => {
+          expect(res.body).toEqual({});
+        })
+        .end(done);
+    });
+  });

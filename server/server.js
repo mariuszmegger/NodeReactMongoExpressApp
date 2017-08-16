@@ -13,7 +13,13 @@ var {authenticate} = require('./middleware/authenticate');
 var app = express();
 const port = process.env.PORT;
 
+app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
+
+
+app.get('/', (req, res) => {
+  res.status(200).send();
+})
 
 app.post('/todos', authenticate, (req, res) => {
   var todo = new Todo({
