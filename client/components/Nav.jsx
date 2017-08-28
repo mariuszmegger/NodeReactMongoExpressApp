@@ -1,14 +1,49 @@
 import React from 'react';
 import {Link, IndexLink} from 'react-router';
 
+import UserAPI from 'UserAPI';
+import NavFormSection from 'NavFormSection'
+
 class Nav extends React.Component {
+
   constructor(props){
     super(props);
     this.state = {
-
+      // loggedIn: (localStorage.getItem('x-auth'))? true:false
+      loggedIn: this.props.loggedIn
     }
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
+  componentWillMount(){
+    console.log('Nav mounted');
+  }
+  onSubmit(email, password){
+    let userAPI = new UserAPI();
+    userAPI.loginUser(email, password).then((res) => {
+      if(!res){
+        throw new Error();
+      }
+      this.setState({
+        loggedIn: true
+      })
+    }).catch((e) => {
+      alert('User not exists', e)
+    })
+  }
+  onLogout(){
+    let userAPI = new UserAPI();
+    userAPI.logOutUser().then((res) => {
+      this.setState({
+        loggedIn: false
+      });
+    }).catch((e) => {
+      alert('User not exists', e)
+    })
+  }
+
   render(){
+    let {loggedIn} = this.state;
     return (
       <div className="container-fluid">
         <div className="row">
@@ -29,19 +64,7 @@ class Nav extends React.Component {
                   <li><IndexLink to="/" activeClassName="active" >Todos <span className="sr-only">(current)</span></IndexLink></li>
                   <li><Link to="/users" activeClassName="active">Users</Link></li>
                 </ul>
-                <form className="navbar-form navbar-right">
-                  <div className="form-group">
-                    <span>Login:</span><input type="email" className="form-control" placeholder="Email"/>
-                  </div>
-                  <div className="form-group">
-                    <input type="password" className="form-control" placeholder="Password"/>
-                  </div>
-                  <button type="submit" className="btn btn-default">Submit</button>
-                </form>
-                <ul className="nav navbar-nav navbar-right">
-                  <li><a href="#">Logout</a></li>
-                  <li><Link to="/register" activeClassName="active">Register</Link></li>
-                </ul>
+                <NavFormSection onSubmit={this.onSubmit} onLogout={this.onLogout} loggedIn={loggedIn}/>
               </div>
             </div>
           </nav>
@@ -52,7 +75,6 @@ class Nav extends React.Component {
 }
 
 Nav.defaultProps = {
-
 };
 
 Nav.propTypes = {
