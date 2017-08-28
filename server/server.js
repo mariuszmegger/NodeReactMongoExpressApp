@@ -107,13 +107,15 @@ app.patch('/todos/update/:id', authenticate, (req,res) => {
 app.post('/user/register', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   var user = new User(body);
-
+  var userData;
   user.save().then((doc) => {
+    userData = doc;
     return user.generateAuthToken(true);
+
   }).then((token)=>{
 
     if(token){
-      res.header('x-auth', token).status(200).send();
+      res.header('x-auth', token).status(200).send({token, userData});
     }
   }).catch((e) => {
     res.status(400).send(e);
@@ -124,7 +126,7 @@ app.post('/user/login', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   User.findByCredentials(body.email, body.password).then((user) => {
     return user.generateAuthToken(false).then((token) => {
-      res.header('x-auth', token).send(user);
+      res.header('x-auth', token).send({user, token});
     });
   }).catch((e) => {
       res.status(400).send();
