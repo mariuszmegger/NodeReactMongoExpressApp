@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
+import {Link, IndexLink} from 'react-router';
 
 
 class TodoList extends React.Component {
@@ -13,8 +14,9 @@ class TodoList extends React.Component {
     return TodoAPIVar.getTodos();
   }
   render(){
+    let {id} = this.props
     return (
-        <td>Complete/Edit/Delete</td>
+        <td><Link to={'/todo/edit/'+id}><span className="glyphicon glyphicon-edit"></span></Link><span className="glyphicon glyphicon-remove"></span></td>
     );
   }
 }

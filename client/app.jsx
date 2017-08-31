@@ -7,6 +7,7 @@ import UsersList from 'UsersList';
 import UserAPI from 'UserAPI';
 import Todos from 'Todos';
 import AddTodo from 'AddTodo';
+import EditTodo from 'EditTodo';
 
 
 // var actions = require('actions');
@@ -42,7 +43,8 @@ ReactDOM.render(
       <Route path="todos" component={Todos} />
       <Route path="users" component={UsersList} onEnter={requireAuth}/>
       <Route path="register" component={Register}/>
-      <Route path="addTodo" component={AddTodo} onEnter={requireAuth}/>
+      <Route path="todo/add" component={AddTodo} onEnter={requireAuth}/>
+      <Route path="todo/edit/:id" component={EditTodo} onEnter={requireAuth}/>
       <IndexRoute component={Todos} onEnter={requireAuth}></IndexRoute>
     </Route>
   </Router>,

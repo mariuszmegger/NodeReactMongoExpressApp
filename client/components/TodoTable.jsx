@@ -21,7 +21,7 @@ class TodoTable extends React.Component {
     return (
         <div className="row">
           <div className="col-md-12">
-            <h3>Todos List<span className="addLink"><Link to="/addTodo" activeClassName="active">Add</Link></span></h3>
+            <h3>Todos List<Link to="/todo/add" activeClassName="active"><span className="glyphicon glyphicon-plus addLink"></span></Link></h3>
             <table className="table table-bordered table-hovered" id="todoTable">
               <thead>
                 <tr>

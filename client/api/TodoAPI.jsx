@@ -12,7 +12,16 @@ class TodoAPI {
         console.log(error);
       });
   };
-  getSingleTodo(){};
+  getSingleTodo(id){
+    return axios.get(`/todos/${id}`, {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   deleteTodo(){};
   addTodo(todo){
     return axios.post('/todos', {text:todo.text}, {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
@@ -24,6 +33,15 @@ class TodoAPI {
         console.log(error);
       });
   };
-  updateTodo(){};
+  updateTodo(todo){
+    return axios.patch(`/todos/update/${todo._id}`, {text:todo.text, completed:todo.completed}, {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 }
 export default TodoAPI;

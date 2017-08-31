@@ -15,9 +15,9 @@ class TodoTr extends React.Component {
         <td>{_id}</td>
         <td>{text}</td>
         <td>Created At</td>
-        <td>{(completed)? 'YES' : 'NO'}</td>
+        <td>{(completed)? <span className="glyphicon glyphicon-ok"></span> : <span className="glyphicon glyphicon-minus"></span>}</td>
         <td>{(completedAt)? completedAt : '------'}</td>
-        <TodoTdOperators />
+        <TodoTdOperators id={_id} />
       </tr>
     );
   }
