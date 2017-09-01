@@ -7,13 +7,18 @@ class TodoSearch extends React.Component {
     super(props);
     this.state = {}
   }
+  onChange(){
+    this.props.onChange(this.refs.completedVar.value);
+  }
   render(){
     return (
       <div className="col-md-4">
         <label>Completed:
-        </label><select className="form-control">
-          <option>True</option>
-          <option>False</option>
+        </label>
+        <select value={this.props.completed} onChange={this.onChange.bind(this)} className="form-control" ref="completedVar">
+          <option value="">All</option>
+          <option value="yes">Completed</option>
+          <option value="no">Not Completed</option>
         </select>
       </div>
     );

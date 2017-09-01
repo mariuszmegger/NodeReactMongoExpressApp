@@ -63,10 +63,11 @@ describe('POST /todos', () => {
 });
 
 
-describe('GET /todos', () => {
-  it('Should get all todos of the specyfic user', (done) => {
+describe('GET /todos/:completed', () => {
+  it('Should get all todos of the specyfic user with completed filter', (done) => {
+    let completed = false;
     request(app)
-      .get("/todos")
+      .get(`/todos/all/${completed}`)
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect((res) => {
@@ -74,6 +75,30 @@ describe('GET /todos', () => {
       })
       .end(done);
     });
+
+    it('Should get all todos of the specyfic user', (done) => {
+      let completed = true;
+      request(app)
+        .get(`/todos/all/${completed}`)
+        .set('x-auth', users[0].tokens[0].token)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.todos.length).toBe(0);
+        })
+        .end(done);
+      });
+
+      it('Should get all todos of the specyfic user', (done) => {
+        let completed = 'xxx';
+        request(app)
+          .get(`/todos/all/${completed}`)
+          .set('x-auth', users[0].tokens[0].token)
+          .expect(200)
+          .expect((res) => {
+            expect(res.body.todos.length).toBe(2);
+          })
+          .end(done);
+        });
 });
 
 describe('GET /todos/:id', () => {

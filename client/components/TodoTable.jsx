@@ -10,12 +10,15 @@ class TodoTable extends React.Component {
     super(props);
     this.state = {}
   }
+  deleteTodo(id){
+    return this.props.deleteTodo(id);
+  }
   render(){
     let {todos} = this.props;
 
     var renderTodosRows = () =>{
       return todos.map((todo) => {
-        return ( <TodoTr key={todo._id} {...todo} /> )
+        return ( <TodoTr key={todo._id} {...todo} deleteTodo={this.deleteTodo.bind(this)}/> )
       })
     }
     return (
@@ -25,7 +28,6 @@ class TodoTable extends React.Component {
             <table className="table table-bordered table-hovered" id="todoTable">
               <thead>
                 <tr>
-                  <td>Id</td>
                   <td>Title</td>
                   <td>Created At</td>
                   <td>Completed</td>

@@ -4,6 +4,7 @@ const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
+const moment = require('moment');
 
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
@@ -33,12 +34,44 @@ app.post('/todos', authenticate, (req, res) => {
   });
 });
 
-app.get('/todos', authenticate, (req, res) => {
-  Todo.find({creator: req.user._id}).then((todos) => {
-    res.status(200).send({todos});
-  }).catch(() => {
-    req.status(400).send();
-  })
+app.get('/todos/all/:completed', authenticate, (req, res) => {
+  let {completed} = req.params;
+  if(completed && completed !== 'xxx'){
+    Todo.find({creator: req.user._id, completed: req.params.completed}).then((todos) => {
+      var todos = todos.map((todo) => {
+        var todo = {
+          createdAt: moment(todo._id.getTimestamp()).format('DD/MM/YYYY'),
+          _id:todo._id,
+          completed: todo.completed,
+          completedAt: todo.completedAt,
+          text:todo.text,
+          creator: todo.creator
+        };
+        return todo;
+      })
+      res.status(200).send({todos});
+    }).catch(() => {
+      req.status(400).send();
+    })
+  }else{
+    Todo.find({creator: req.user._id}).then((todos) => {
+      var todos = todos.map((todo) => {
+        var todo = {
+          createdAt: moment(todo._id.getTimestamp()).format('DD/MM/YYYY'),
+          _id:todo._id,
+          completed: todo.completed,
+          completedAt: todo.completedAt,
+          text:todo.text,
+          creator: todo.creator
+        };
+        return todo;
+      })
+      res.status(200).send({todos});
+    }).catch(() => {
+      req.status(400).send();
+    })
+  }
+
 });
 
 app.get('/todos/:id', authenticate, (req, res) => {

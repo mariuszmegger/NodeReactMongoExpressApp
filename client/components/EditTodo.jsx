@@ -1,8 +1,9 @@
 import React from 'react';
+import {hashHistory} from 'react-router';
+
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
 import Todos from 'Todos';
-import EditTodoForm from 'EditTodoForm';
 
 
 class EditTodo extends React.Component {
@@ -53,6 +54,7 @@ class EditTodo extends React.Component {
       text:this.state.text,
       completed: this.state.completed
     }).then((res) => {
+      hashHistory.push('/todos');
       console.log('bbb');
     }).catch((e) => {
       console.log(e);

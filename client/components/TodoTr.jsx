@@ -1,23 +1,30 @@
 import React from 'react';
+import Moment from 'moment';
+// const {ObjectID} = require('mongodb');
+
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
 import TodoTdOperators from 'TodoTdOperators';
+
 
 
 class TodoTr extends React.Component {
   constructor(props){
     super(props);
   }
+  deleteTodo(id){
+    return this.props.deleteTodo(id);
+  }
   render(){
-    let {_id, text, completed, completedAt} = this.props
+    let {_id, text, completed, completedAt, createdAt} = this.props
     return (
       <tr>
-        <td>{_id}</td>
         <td>{text}</td>
-        <td>Created At</td>
+        <td>{createdAt}</td>
+
         <td>{(completed)? <span className="glyphicon glyphicon-ok"></span> : <span className="glyphicon glyphicon-minus"></span>}</td>
-        <td>{(completedAt)? completedAt : '------'}</td>
-        <TodoTdOperators id={_id} />
+        <td>{(completedAt)? Moment(completedAt).format("MM/DD/YYYY"): '------'}</td>
+        <TodoTdOperators id={_id} deleteTodo={this.deleteTodo.bind(this)}/>
       </tr>
     );
   }

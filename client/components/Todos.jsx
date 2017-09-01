@@ -1,5 +1,6 @@
 import React from 'react';
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
+import $ from 'jQuery';
 
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
@@ -11,24 +12,39 @@ class Todos extends React.Component {
     super(props);
     this.state = {
       todos: [],
+      completed:'no',
       message:''
     }
     this.getTodos = this.getTodos.bind(this);
   }
 
   componentWillMount(){
-    this.getTodos()
-     .then((res) => {
-       this.setState({todos: res.data.todos});
-     })
-     .catch(function (error) {
-       console.log(error);
-     });
+    this.getTodos(this.state.completed)
+    //  .then((res) => {
+    //    this.setState({todos: res.data.todos});
+    //  })
+    //  .catch(function (error) {
+    //    console.log(error);
+    //  });
   }
 
-  getTodos(){
+  getTodos(completed){
+      this.setState({completed: completed});
+    if (completed === 'yes'){
+      completed = true;
+    }else if(completed === 'no'){
+      completed = false;
+    }else{
+      completed = 'xxx'
+    }
+
     var TodoAPIVar = new TodoAPI();
-    return TodoAPIVar.getTodos()
+    return TodoAPIVar.getTodos(completed).then((res) => {
+      this.setState({todos: res.data.todos});
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
   addTodo(todo){
     var TodoAPIVar = new TodoAPI();
@@ -44,8 +60,17 @@ class Todos extends React.Component {
       console.log(e);
     });
   }
+  deleteTodo(id){
+    var TodoAPIVar = new TodoAPI();
+    return TodoAPIVar.deleteTodo(id).then((res) => {
+      return res;
+      console.log(res.data.text, 'usunięty.');
+    }).catch((e) => {
+
+    })
+  }
   render(){
-    let  {todos, message} = this.state;
+    let  {todos, message, completed} = this.state;
     // console.log(message);
     return (
       <div className="container">
@@ -53,8 +78,8 @@ class Todos extends React.Component {
           {message.length > 0 &&
             <div className="alert alert-success" role="alert">...</div>
           }
-          <TodoSearch />
-          <TodoTable todos={todos} addTodo={this.addTodo}/>
+          <TodoSearch completed={completed} onChange={this.getTodos}/>
+          <TodoTable todos={todos} addTodo={this.addTodo} deleteTodo={this.deleteTodo}/>
         </div>
       </div>
     );
@@ -62,7 +87,7 @@ class Todos extends React.Component {
 }
 
 Todos.defaultProps = {
-
+  completed: false
 };
 
 Todos.propTypes = {
