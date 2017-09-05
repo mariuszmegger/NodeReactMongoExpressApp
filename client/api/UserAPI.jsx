@@ -1,5 +1,7 @@
 import axios from 'axios';
 import {hashHistory} from 'react-router';
+import $ from 'jQuery';
+
 class UserAPI {
   getUsers(){
     console.log('get users');
@@ -19,6 +21,7 @@ class UserAPI {
         hashHistory.push('/register')
         return false;
       }
+      console.log(response);
       return response;
     }).catch((e) => {
       console.log('auth function error', e);
@@ -34,7 +37,7 @@ class UserAPI {
       .then(function (response) {
         if(response.data.userData){
           sessionStorage.setItem('x-auth', response.data.token);
-          hashHistory.push('/users')
+          hashHistory.push('/todos')
         }
         return response;
       })
@@ -50,7 +53,7 @@ class UserAPI {
       .then(function (response) {
         if(response.data.user){
           sessionStorage.setItem('x-auth', response.data.token);
-          hashHistory.push('/users')
+          hashHistory.push('/todos')
         }
         return response;
       })
@@ -61,8 +64,9 @@ class UserAPI {
   logOutUser(){
     return axios.delete('/user/logout', {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
       .then(function (response) {
+        console.log(response);
         sessionStorage.removeItem('x-auth');
-        hashHistory.push('/register')
+        hashHistory.push('/login')
       })
       .catch(function (error) {
         console.log(error);

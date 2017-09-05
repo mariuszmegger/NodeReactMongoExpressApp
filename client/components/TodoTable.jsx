@@ -1,14 +1,16 @@
 import React from 'react';
-import {Link, IndexLink} from 'react-router';
+import {Link} from 'react-router';
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
 import TodoTr from 'TodoTr';
+import $ from 'jQuery';
+import dt from 'datatables.net';
+
 
 
 class TodoTable extends React.Component {
   constructor(props){
     super(props);
-    this.state = {}
   }
   deleteTodo(id){
     return this.props.deleteTodo(id);
@@ -23,9 +25,9 @@ class TodoTable extends React.Component {
     }
     return (
         <div className="row">
-          <div className="col-md-12">
-            <h3>Todos List<Link to="/todo/add" activeClassName="active"><span className="glyphicon glyphicon-plus addLink"></span></Link></h3>
-            <table className="table table-bordered table-hovered" id="todoTable">
+          <div className="col-md-12 mainContainer mainFormContainer todoTableContainer">
+            <h4>Todos List<Link to="/todo/add" activeClassName="active"><span className="glyphicon glyphicon-plus-sign addLink" title="Add todo"></span></Link></h4>
+            <table className="table table-bordered table-hovered todosTable" id="todosTable">
               <thead>
                 <tr>
                   <td>Title</td>

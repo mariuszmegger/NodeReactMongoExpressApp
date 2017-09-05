@@ -6,8 +6,6 @@ import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
 import TodoTdOperators from 'TodoTdOperators';
 
-
-
 class TodoTr extends React.Component {
   constructor(props){
     super(props);
@@ -21,9 +19,8 @@ class TodoTr extends React.Component {
       <tr>
         <td>{text}</td>
         <td>{createdAt}</td>
-
         <td>{(completed)? <span className="glyphicon glyphicon-ok"></span> : <span className="glyphicon glyphicon-minus"></span>}</td>
-        <td>{(completedAt)? Moment(completedAt).format("MM/DD/YYYY"): '------'}</td>
+        <td>{(completedAt)? Moment(completedAt).format("MM/DD/YYYY"): <span className="glyphicon glyphicon-minus"></span>}</td>
         <TodoTdOperators id={_id} deleteTodo={this.deleteTodo.bind(this)}/>
       </tr>
     );

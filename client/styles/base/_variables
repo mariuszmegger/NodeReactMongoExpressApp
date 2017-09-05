@@ -1,0 +1,7 @@
+//Colors
+$mainContainerBackgroundColor : white;
+$firstMainColor: #23527C;
+body{
+  background-color:#efefef
+}
+// $mainContainerBackgroundColor : #efefef;

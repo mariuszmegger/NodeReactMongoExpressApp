@@ -6,10 +6,6 @@ class NavFormSection extends React.Component {
   constructor(props){
     super(props);
   }
-  onSubmit(e){
-    e.preventDefault();
-    this.props.onSubmit(this.refs.email.value, this.refs.password.value)
-  }
   onLogout(e){
     e.preventDefault();
     this.props.onLogout(e)
@@ -25,7 +21,8 @@ class NavFormSection extends React.Component {
             <li><a onClick={this.onLogout.bind(this)} href="#">Logout</a></li>;
           </ul>
         ):(
-          <form ref="form" onSubmit={this.onSubmit.bind(this)} className="navbar-form navbar-right">
+        <div className="navbar-right">
+          <form ref="form" onSubmit={this.onSubmit.bind(this)} className="navbar-form ">
             <div className="form-group">
               <span>Login:</span><input type="email" className="form-control" placeholder="Email" ref="email"/>
             </div>
@@ -34,6 +31,9 @@ class NavFormSection extends React.Component {
             </div>
             <button type="submit" className="btn btn-default">Submit</button>
           </form>
+          <Link to="/register" activeClassName="active navbar-right"><span className="glyphicon glyphicon-pencil addLink"></span></Link>
+
+        </div>
         )}
       </div>
     );

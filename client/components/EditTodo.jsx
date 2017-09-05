@@ -1,5 +1,6 @@
 import React from 'react';
 import {hashHistory} from 'react-router';
+import {Link} from 'react-router';
 
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
@@ -66,18 +67,19 @@ class EditTodo extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <h3>Edit Todo</h3>
-          <div className="col-md-6">
+          <div className="col-md-3"></div>
+          <div className="col-md-6 mainContainer mainFormContainer editFormContainer">
+            <h4>Edit Todo</h4>
             <form ref="form" onSubmit={this.editSingleTodo}>
               <div className="form-group">
-                <label for="addTodo">Todo text</label>
-                <input name="aaa" type="text" onChange={this.handleInputChange} value={text} className="form-control" id="addTodo" placeholder="Todo text" />
-                <div className="checkbox">
+                <label for="addTodo">Todo title</label>
+                <input name="aaa" type="text" onChange={this.handleInputChange} value={text} className="form-control" id="addTodo" placeholder="Type title in here" />
                   <label><input type="checkbox" checked={(completed)? 'checked': null} onChange={this.handleCheckboxClick}/>Completed</label>
-                </div>
               </div>
-              <button type="submit" className="btn btn-default">Edit Todo</button>
+              <button type="submit" className="btn btn-default">Submit</button>
+              <button className="btn btn-default backButton"><Link to="/todos">Go Back </Link></button>
             </form>
+
           </div>
         </div>
       </div>

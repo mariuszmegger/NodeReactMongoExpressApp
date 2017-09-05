@@ -9,34 +9,31 @@ class Nav extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      // loggedIn: (localStorage.getItem('x-auth'))? true:false
       loggedIn: this.props.loggedIn
     }
     this.onSubmit = this.onSubmit.bind(this);
     this.onLogout = this.onLogout.bind(this);
   }
-  componentWillMount(){
-    console.log('Nav mounted');
+  componentWillReceiveProps(nextProps){
+    this.setState({loggedIn:nextProps.loggedIn});
   }
   onSubmit(email, password){
+    var self = this;
     let userAPI = new UserAPI();
     userAPI.loginUser(email, password).then((res) => {
       if(!res){
         throw new Error();
       }
-      this.setState({
-        loggedIn: true
-      })
+      self.props.update();
     }).catch((e) => {
-      alert('User not exists', e)
+      alert('User not exists')
     })
   }
   onLogout(){
+    let self = this;
     let userAPI = new UserAPI();
     userAPI.logOutUser().then((res) => {
-      this.setState({
-        loggedIn: false
-      });
+      self.props.update();
     }).catch((e) => {
       alert('User not exists', e)
     })
@@ -56,15 +53,20 @@ class Nav extends React.Component {
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href="#">Brand</a>
+                <a className="navbar-brand" >Brand</a>
               </div>
 
               <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul className="nav navbar-nav">
-                  <li><IndexLink to="/" activeClassName="active" >Todos <span className="sr-only">(current)</span></IndexLink></li>
-                  <li><Link to="/users" activeClassName="active">Users</Link></li>
+                  <li><IndexLink to="/todos" activeClassName="active" >Todos <span className="sr-only">(current)</span></IndexLink></li>
                 </ul>
-                <NavFormSection onSubmit={this.onSubmit} onLogout={this.onLogout} loggedIn={loggedIn}/>
+                {loggedIn ? (
+                  <ul className="nav navbar-nav navbar-right">
+                    <li><a onClick={this.onLogout.bind(this)} href="#">Logout</a></li>;
+                  </ul>
+                ):(
+                  <span></span>
+                )}
               </div>
             </div>
           </nav>
@@ -74,10 +76,4 @@ class Nav extends React.Component {
   }
 }
 
-Nav.defaultProps = {
-};
-
-Nav.propTypes = {
-
-}
 export default Nav;

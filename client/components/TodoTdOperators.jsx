@@ -30,11 +30,4 @@ class TodoTdOperators extends React.Component {
   }
 }
 
-TodoTdOperators.defaultProps = {
-
-};
-
-TodoTdOperators.propTypes = {
-
-}
 export default TodoTdOperators;

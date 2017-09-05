@@ -1,6 +1,6 @@
 import React from 'react';
-import Nav from 'Nav';
 
+import Nav from 'Nav';
 import UserAPI from 'UserAPI';
 
 class TodoApp extends React.Component {
@@ -15,21 +15,27 @@ class TodoApp extends React.Component {
     //     loggedIn: loggedIn
     //   })
     // })
+    this.updateNavbar = this.updateNavbar.bind(this);
   }
   componentWillMount(){
-    var loggedIn = (sessionStorage.getItem('x-auth'))? true:false;
-    this.setState({loggedIn})
+    this.updateNavbar();
   }
-
+  updateNavbar(){
+    let userAPI = new UserAPI();
+    userAPI.checkUserAuth().then((res) => {
+    let  loggedIn = (res)? true:false
+      this.setState({
+        loggedIn: loggedIn
+      })
+    })
+  }
   render(){
+    console.log(this.state.loggedIn);
     return (
       <div className="container-fluid">
         <div className="row">
-          <Nav loggedIn={this.state.loggedIn}/>
-          <div>
-            <h3>Main Component</h3>
-          </div>
-          {this.props.children}
+          <Nav loggedIn={this.state.loggedIn} update={this.updateNavbar}/>
+          {React.cloneElement(this.props.children, {update: this.updateNavbar})}
         </div>
     </div>
     );

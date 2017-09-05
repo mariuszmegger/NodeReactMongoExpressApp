@@ -1,0 +1,42 @@
+@import "base/variables";
+
+.mainContainer{
+  background-color: $mainContainerBackgroundColor;
+  padding:24px;
+  border-radius: 5px;
+  border-left: 1px solid #efefef;
+  border-right: 1px solid #efefef;
+  border-bottom: 1px solid #e2e2e2;
+
+  h4{
+    margin-top: 3px;
+    padding-bottom: 12px;
+    font-family: "Raleway", Helvetica, sans-serif !important;
+    border-bottom: 1px solid #dadada;
+    color: #23527C;
+    font-size: 25px;
+  }
+}
+
+.mainFormContainer{
+  label{
+    margin-bottom: 5px;
+    font-weight: 700;
+    padding: 3px;
+  }
+  button{
+    background-color: #23527C;
+    color:white;
+    &:hover{
+      background-color: white;
+      color:#23527C;
+    }
+  }
+  input[type=checkbox]{
+    margin: 14px 6px 0 0;
+  }
+  .backButton{
+    float:right;
+
+  }
+}

@@ -1,0 +1,41 @@
+.todoTableContainer{
+  h4{
+    .glyphicon{
+      color:green;
+      font-size:25px;
+      float:right;
+      margin-right:10px;
+    }
+  }
+  .table{
+    text-align: center;
+    vertical-align: middle;
+    thead{
+      background-color: $firstMainColor;
+      color:white;
+    }
+  }
+  td {
+    &:last-child{
+      width:100px;
+      .glyphicon{
+        padding: 2px 9px;
+        font-size:18px;
+        cursor:pointer;
+      }
+    }
+  }
+  .glyphicon-edit{
+    font-size:18px;
+    border-right:1px solid lightgrey;
+  }
+  .glyphicon-remove{
+    font-size:18px;
+  }
+  .glyphicon-ok{
+    color:green;
+  }
+  .glyphicon-minus{
+    color:red;
+  }
+}
