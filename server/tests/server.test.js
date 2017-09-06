@@ -95,7 +95,7 @@ describe('GET /todos/:completed', () => {
           .set('x-auth', users[0].tokens[0].token)
           .expect(200)
           .expect((res) => {
-            expect(res.body.todos.length).toBe(2);
+            expect(res.body.todos.length).toBe(1);
           })
           .end(done);
         });
@@ -349,7 +349,7 @@ describe('POST /users/register', () => {
         })
         .expect(200)
         .expect((res) => {
-          expect(res.body.email).toBe(users[1].email);
+          expect(res.body.user.email).toBe(users[1].email);
           expect(res.headers['x-auth']).toExist();
           expect(res.headers['x-auth']).toNotBe(users[1].tokens.token);
         })
@@ -406,7 +406,7 @@ describe('POST /users/register', () => {
         .set('x-auth', users[0].tokens[0].token)
         .expect(200)
         .expect((res) => {
-          expect(res.body._id).toBe(users[0]._id);
+          expect(res.body._id).toEqual(users[0]._id);
           expect(res.body.email).toBe(users[0].email);
         })
         .end(done);

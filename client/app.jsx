@@ -1,13 +1,14 @@
 import React  from 'react';
 import ReactDOM  from 'react-dom';
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
+
 import TodoApp from 'TodoApp';
-import Register from 'Register';
 import UserAPI from 'UserAPI';
 import Todos from 'Todos';
 import AddTodo from 'AddTodo';
 import EditTodo from 'EditTodo';
 import Login from 'Login';
+import Dashboard from 'Dashboard';
 
 
 // var actions = require('actions');
@@ -15,7 +16,6 @@ import Login from 'Login';
 
 // Load foundation
 // require('style!css!foundation-sites/dist/foundation.min.css')
-// $(document).foundation();
 
 // App css
 require('style!css!sass!applicationStyles')
@@ -34,7 +34,7 @@ ReactDOM.render(
     <Route path="/" component={TodoApp} >
       <Route path="login" component={Login}/>
       <Route path="todos" component={Todos} onEnter={requireAuth}/>
-      <Route path="register" component={Register}/>
+      <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
       <Route path="todo/add" component={AddTodo} onEnter={requireAuth}/>
       <Route path="todo/edit/:id" component={EditTodo} onEnter={requireAuth}/>
       <IndexRoute component={Login} ></IndexRoute>

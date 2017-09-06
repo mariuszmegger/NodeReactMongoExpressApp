@@ -37,6 +37,15 @@
   }
   .backButton{
     float:right;
+    background-color: $mainContainerBackgroundColor;
+    color: $firstMainColor;
+    &:hover{
+      background-color: $firstMainColor;
+      a{
+        color: $mainContainerBackgroundColor;
+        text-decoration: none;
+      }
 
+    }
   }
 }

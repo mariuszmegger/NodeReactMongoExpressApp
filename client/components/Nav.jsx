@@ -58,7 +58,8 @@ class Nav extends React.Component {
 
               <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul className="nav navbar-nav">
-                  <li><IndexLink to="/todos" activeClassName="active" >Todos <span className="sr-only">(current)</span></IndexLink></li>
+                  <li><IndexLink to="/dashboard" activeClassName="active" >Dashboard <span className="sr-only">(current)</span></IndexLink></li>
+                  <li><Link to="/todos" activeClassName="active" >Todos <span className="sr-only">(current)</span></Link></li>
                 </ul>
                 {loggedIn ? (
                   <ul className="nav navbar-nav navbar-right">

@@ -1,0 +1,34 @@
+.registerLoginPanel{
+  padding-left: 0;
+  padding-right: 0;
+  border-radius: 5px;
+  margin-bottom:20px;
+  cursor:pointer;
+  h4{
+    text-align:center;
+    color: $firstMainColor
+  }
+  .registerLoginPanelLeft{
+    background-color: $mainContainerBackgroundColor;
+    border-radius: 5px;
+  }
+  .registerLoginPanelRight{
+    background-color: $mainContainerBackgroundColor;
+    border-radius: 5px;
+  }
+
+  .registerLoginPanelRight.cliked, .registerLoginPanelLeft.cliked{
+    background-color: $firstMainColor;
+    h4{
+      color: $mainContainerBackgroundColor;
+    }
+  }
+
+  .registerLoginPanelRight.notCliked, .registerLoginPanelLeft.notCliked{
+    background-color: $mainContainerBackgroundColor;
+    h4{
+      color: $firstMainColor;
+    }
+  }
+
+}

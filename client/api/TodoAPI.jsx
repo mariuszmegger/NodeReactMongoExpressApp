@@ -37,10 +37,11 @@ class TodoAPI {
   addTodo(todo){
     return axios.post('/todos', {text:todo.text}, {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
       .then(function (response) {
-        console.log(response);
+
         return response;
       })
       .catch(function (error) {
+        alert('Todo title need to have at least 5 characters try again please!');
         console.log(error);
       });
   };

@@ -37,7 +37,7 @@ app.post('/todos', authenticate, (req, res) => {
 app.get('/todos/all/:completed', authenticate, (req, res) => {
   let {completed} = req.params;
   if(completed && completed !== 'xxx'){
-    Todo.find({creator: req.user._id, completed: req.params.completed}).then((todos) => {
+    Todo.find({creator: req.user._id, completed: completed}).then((todos) => {
       var todos = todos.map((todo) => {
         var todo = {
           createdAt: moment(todo._id.getTimestamp()).format('DD/MM/YYYY'),
@@ -157,6 +157,7 @@ app.post('/user/register', (req, res) => {
 
 app.post('/user/login', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
+  var user = new User(body);
   User.findByCredentials(body.email, body.password).then((user) => {
     return user.generateAuthToken(false).then((token) => {
       res.header('x-auth', token).send({user, token});

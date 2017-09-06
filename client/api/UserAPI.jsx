@@ -21,7 +21,6 @@ class UserAPI {
         hashHistory.push('/register')
         return false;
       }
-      console.log(response);
       return response;
     }).catch((e) => {
       console.log('auth function error', e);
@@ -37,7 +36,7 @@ class UserAPI {
       .then(function (response) {
         if(response.data.userData){
           sessionStorage.setItem('x-auth', response.data.token);
-          hashHistory.push('/todos')
+          hashHistory.push('/dashboard');
         }
         return response;
       })
@@ -53,7 +52,7 @@ class UserAPI {
       .then(function (response) {
         if(response.data.user){
           sessionStorage.setItem('x-auth', response.data.token);
-          hashHistory.push('/todos')
+          hashHistory.push('/dashboard');;
         }
         return response;
       })

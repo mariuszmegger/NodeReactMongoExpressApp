@@ -1,0 +1,6 @@
+.dashboardContainer{
+  background-color: $mainContainerBackgroundColor;
+  li{
+    color: $firstMainColor;
+  }
+}
