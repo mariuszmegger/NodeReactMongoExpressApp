@@ -13,7 +13,7 @@ class Login extends React.Component {
     this.showLoginPanel();
   }
   componentDidMount(){
-    this.showLoginPanel().bind(this);
+    this.showLoginPanel();
   }
   onRegisterSubmit(e){
     var self = this;
@@ -48,7 +48,7 @@ class Login extends React.Component {
   showLoginPanel(){
     $('.registerUser').hide();
     $('.loginUser').fadeIn(800);
-    
+
     $('.registerLoginPanelRight').removeClass('cliked');
     $('.registerLoginPanelLeft').addClass('cliked');
 

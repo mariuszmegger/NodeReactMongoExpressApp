@@ -1,45 +1,29 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
+import * as actions from 'actions';
 import Nav from 'Nav';
 import UserAPI from 'UserAPI';
 
 class TodoApp extends React.Component {
   constructor(props){
     super(props);
-    let userAPI = new UserAPI;
-      this.state = {
-      }
-    // userAPI.checkUserAuth().then((res) => {
-    // let  loggedIn = (res)? true:false
-    //   this.setState({
-    //     loggedIn: loggedIn
-    //   })
-    // })
-    this.updateNavbar = this.updateNavbar.bind(this);
   }
-  componentWillMount(){
-    this.updateNavbar();
-  }
-  updateNavbar(){
-    let userAPI = new UserAPI();
-    userAPI.checkUserAuth().then((res) => {
-    let  loggedIn = (res)? true:false
-      this.setState({
-        loggedIn: loggedIn
-      })
-    })
+  componentDidMount(){
+    console.log(this.props);
+    this.props.getLoggedinUser();
   }
   render(){
-    console.log(this.state.loggedIn);
     return (
       <div className="container-fluid">
         <div className="row">
-          <Nav loggedIn={this.state.loggedIn} update={this.updateNavbar}/>
-          {React.cloneElement(this.props.children, {update: this.updateNavbar})}
+          <Nav />
+          {this.props.children}
         </div>
     </div>
     );
   }
 }
 
-export default TodoApp;
+export default connect(null, actions)(TodoApp);
+// {React.cloneElement(this.props.children, {update: this.updateNavbar})}

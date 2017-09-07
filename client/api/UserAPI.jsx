@@ -3,9 +3,6 @@ import {hashHistory} from 'react-router';
 import $ from 'jQuery';
 
 class UserAPI {
-  getUsers(){
-    console.log('get users');
-  }
   getLoggedUser(){
     return axios.get('/users/me', {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
       .then(function (response) {
@@ -18,7 +15,7 @@ class UserAPI {
   checkUserAuth(){
     return this.getLoggedUser().then((response) => {
       if(response.status === 401){
-        hashHistory.push('/register')
+        hashHistory.push('/login')
         return false;
       }
       return response;
@@ -63,7 +60,6 @@ class UserAPI {
   logOutUser(){
     return axios.delete('/user/logout', {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
       .then(function (response) {
-        console.log(response);
         sessionStorage.removeItem('x-auth');
         hashHistory.push('/login')
       })

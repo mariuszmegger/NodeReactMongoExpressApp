@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link, IndexLink} from 'react-router';
+import {connect} from 'react-redux';
 
 import UserAPI from 'UserAPI';
 import NavFormSection from 'NavFormSection'
@@ -8,14 +9,8 @@ class Nav extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      loggedIn: this.props.loggedIn
-    }
     this.onSubmit = this.onSubmit.bind(this);
     this.onLogout = this.onLogout.bind(this);
-  }
-  componentWillReceiveProps(nextProps){
-    this.setState({loggedIn:nextProps.loggedIn});
   }
   onSubmit(email, password){
     var self = this;
@@ -40,7 +35,7 @@ class Nav extends React.Component {
   }
 
   render(){
-    let {loggedIn} = this.state;
+    let auth = (this.props.auth)? true:false;
     return (
       <div className="container-fluid">
         <div className="row">
@@ -61,7 +56,7 @@ class Nav extends React.Component {
                   <li><IndexLink to="/dashboard" activeClassName="active" >Dashboard <span className="sr-only">(current)</span></IndexLink></li>
                   <li><Link to="/todos" activeClassName="active" >Todos <span className="sr-only">(current)</span></Link></li>
                 </ul>
-                {loggedIn ? (
+                {auth ? (
                   <ul className="nav navbar-nav navbar-right">
                     <li><a onClick={this.onLogout.bind(this)} href="#">Logout</a></li>;
                   </ul>
@@ -77,4 +72,9 @@ class Nav extends React.Component {
   }
 }
 
-export default Nav;
+function mapStateToProps({auth}){
+  return {
+    auth
+  }
+}
+export default connect(mapStateToProps)(Nav);

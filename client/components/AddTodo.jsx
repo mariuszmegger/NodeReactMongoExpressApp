@@ -12,10 +12,13 @@ class AddTodo extends React.Component {
     this.state = {
       message: null
     }
+
     this.addTodo = this.addTodo.bind(this);
   }
   addTodo(e){
     e.preventDefault();
+    var {dispatch} = this.props;
+    dispatch(actions.addTodo(todoText));
     var todos = new Todos();
     todos.addTodo({text:this.refs.todoText.value}).then((res) => {
     }).catch((e) => {

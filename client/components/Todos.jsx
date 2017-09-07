@@ -29,7 +29,7 @@ class Todos extends React.Component {
   }
 
   getTodos(completed){
-      this.setState({completed: completed});
+    this.setState({completed: completed});
     if (completed === 'yes'){
       completed = true;
     }else if(completed === 'no'){

@@ -3,6 +3,7 @@ var path = require('path');
 
 module.exports = {
   entry: [
+    'babel-polyfill',
     'script!jquery/dist/jquery.min.js',
     'script!bootstrap/dist/js/bootstrap.min.js',
     // 'style!css!bootstrap/dist/css/bootstrap.min.css',
@@ -32,7 +33,8 @@ module.exports = {
     alias: {
       applicationStyles: 'client/styles/app.scss',
       actions:'client/actions/actions.jsx',
-      reducers:'client/reducers/reducers.jsx',
+      usersReducer:'client/reducers/usersReducer.jsx',
+      todosReducer:'client/reducers/todosReducer.jsx',
       configureStore: 'client/store/configureStore.jsx'
     },
     extensions: ['', '.js', '.jsx']
