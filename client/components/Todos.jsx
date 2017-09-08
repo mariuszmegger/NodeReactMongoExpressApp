@@ -1,7 +1,9 @@
 import React from 'react';
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 import $ from 'jQuery';
+import {connect} from 'react-redux';
 
+import * as actions from 'actions';
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
 import TodoTable from 'TodoTable';
@@ -11,25 +13,15 @@ class Todos extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      todos: [],
       completed:'no',
-      message:''
     }
     this.getTodos = this.getTodos.bind(this);
   }
-
   componentWillMount(){
-    this.getTodos(this.state.completed)
-    //  .then((res) => {
-    //    this.setState({todos: res.data.todos});
-    //  })
-    //  .catch(function (error) {
-    //    console.log(error);
-    //  });
+    this.getTodos('no')
   }
 
   getTodos(completed){
-    this.setState({completed: completed});
     if (completed === 'yes'){
       completed = true;
     }else if(completed === 'no'){
@@ -37,14 +29,7 @@ class Todos extends React.Component {
     }else{
       completed = 'xxx'
     }
-
-    var TodoAPIVar = new TodoAPI();
-    return TodoAPIVar.getTodos(completed).then((res) => {
-      this.setState({todos: res.data.todos});
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    this.props.getTodos(completed);
   }
   addTodo(todo){
     var TodoAPIVar = new TodoAPI();
@@ -70,27 +55,24 @@ class Todos extends React.Component {
     })
   }
   render(){
-    let  {todos, message, completed} = this.state;
-    // console.log(message);
+    let  {todos, completed} = this.props;
+    console.log(completed);
     return (
       <div className="container">
         <div className="row">
-          {message.length > 0 &&
-            <div className="alert alert-success" role="alert">...</div>
-          }
           <TodoSearch completed={completed} onChange={this.getTodos}/>
-          <TodoTable todos={todos} addTodo={this.addTodo} deleteTodo={this.deleteTodo}/>
+          <TodoTable todos={todos} />
         </div>
       </div>
     );
   }
 }
 
-Todos.defaultProps = {
-  completed: false
-};
-
-Todos.propTypes = {
-
+function mapStateToProps({todos, completed}){
+  console.log(completed);
+  return {
+    todos,
+    completed
+  }
 }
-export default Todos;
+export default connect(mapStateToProps, actions)(Todos);

@@ -7,7 +7,7 @@ import {manageTodosReducer} from 'todosReducer';
 export var configure = (initialState = {}) => {
   var reducer = redux.combineReducers({
     auth: manageUserReducer,
-    manageTodos: manageTodosReducer,
+    todos: manageTodosReducer,
   });
 
   var store = redux.createStore(reducer, initialState, applyMiddleware(thunk), redux.compose(

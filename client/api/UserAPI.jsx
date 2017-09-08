@@ -57,11 +57,12 @@ class UserAPI {
         console.log(error);
       });
   }
-  logOutUser(){
+  logoutUser(){
     return axios.delete('/user/logout', {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
       .then(function (response) {
         sessionStorage.removeItem('x-auth');
         hashHistory.push('/login')
+        return response;
       })
       .catch(function (error) {
         console.log(error);

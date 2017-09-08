@@ -1,6 +1,8 @@
 import React from 'react';
 import $ from 'jQuery';
+import {connect} from 'react-redux';
 
+import * as actions from 'actions';
 import UserAPI from 'UserAPI';
 import Nav from 'Nav'
 
@@ -15,34 +17,15 @@ class Login extends React.Component {
   componentDidMount(){
     this.showLoginPanel();
   }
+
   onRegisterSubmit(e){
-    var self = this;
     e.preventDefault();
-    let userAPI = new UserAPI();
-    userAPI.registerUser(this.refs.registerEmail.value, this.refs.registerPassword.value).then((res) => {
-      if(!res){
-        throw new Error();
-      }
-      console.log(self.props);
-      self.props.update();
-    }).catch((e) => {
-      console.log(e);
-      alert('Fix error user can not be created', e)
-    })
+    this.props.registerUser(this.refs.registerEmail.value, this.refs.registerPassword.value);
   }
 
   onLoginSubmit(e){
     e.preventDefault();
-    var self = this;
-    let userAPI = new UserAPI();
-    userAPI.loginUser(this.refs.loginEmail.value, this.refs.loginPassword.value).then((res) => {
-      if(!res){
-        throw new Error();
-      }
-      self.props.update();
-    }).catch((e) => {
-      alert('User not exists')
-    })
+    this.props.loginUser(this.refs.loginEmail.value, this.refs.loginPassword.value);
   }
 
   showLoginPanel(){
@@ -107,4 +90,4 @@ class Login extends React.Component {
     );
   }
 }
-export default Login;
+export default connect(null, actions)(Login);

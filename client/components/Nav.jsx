@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, IndexLink} from 'react-router';
 import {connect} from 'react-redux';
 
+import * as actions from 'actions';
 import UserAPI from 'UserAPI';
 import NavFormSection from 'NavFormSection'
 
@@ -9,29 +10,11 @@ class Nav extends React.Component {
 
   constructor(props){
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
     this.onLogout = this.onLogout.bind(this);
   }
-  onSubmit(email, password){
-    var self = this;
-    let userAPI = new UserAPI();
-    userAPI.loginUser(email, password).then((res) => {
-      if(!res){
-        throw new Error();
-      }
-      self.props.update();
-    }).catch((e) => {
-      alert('User not exists')
-    })
-  }
-  onLogout(){
-    let self = this;
-    let userAPI = new UserAPI();
-    userAPI.logOutUser().then((res) => {
-      self.props.update();
-    }).catch((e) => {
-      alert('User not exists', e)
-    })
+  onLogout(e){
+    e.preventDefault();
+    this.props.logoutUser();
   }
 
   render(){
@@ -77,4 +60,4 @@ function mapStateToProps({auth}){
     auth
   }
 }
-export default connect(mapStateToProps)(Nav);
+export default connect(mapStateToProps, actions)(Nav);
