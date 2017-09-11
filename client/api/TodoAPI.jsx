@@ -6,9 +6,7 @@ class TodoAPI {
   getTodos(completed){
      return axios.get(`/todos/all/${completed}`, {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
       .then(function (response) {
-        console.log(response);
         return response
-
       })
       .catch(function (error) {
         console.log(error);
@@ -27,17 +25,15 @@ class TodoAPI {
   deleteTodo(id){
     return axios.delete(`/todos/delete/${id}`, {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
       .then(function (response) {
-        console.log(response);
         return response;
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-  addTodo(todo){
-    return axios.post('/todos', {text:todo.text}, {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
+  addTodo(text){
+    return axios.post('/todos', {text}, {headers: {'x-auth': sessionStorage.getItem('x-auth')}})
       .then(function (response) {
-
         return response;
       })
       .catch(function (error) {

@@ -3,6 +3,7 @@ export const LOGIN_USER = 'loginUser';
 export const LOGOUT_USER = 'logoutUser';
 export const REGISTER_USER = 'registerUser';
 export const GET_TODOS = 'getTodos';
+export const SET_COMPLETED = 'setCompleted';
 export const GET_SINGLE_TODO = 'getSingleTodo';
 export const ADD_TODO = 'addTodo';
 export const EDIT_TODO = 'editTodo';

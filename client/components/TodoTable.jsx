@@ -12,16 +12,15 @@ class TodoTable extends React.Component {
   constructor(props){
     super(props);
   }
-  deleteTodo(id){
-    return this.props.deleteTodo(id);
-  }
   render(){
     let {todos} = this.props;
 
     var renderTodosRows = () =>{
-      return todos.map((todo) => {
-        return ( <TodoTr key={todo._id} {...todo} deleteTodo={this.deleteTodo.bind(this)}/> )
-      })
+      if(todos && Array.isArray(todos)){
+        return todos.map((todo) => {
+          return ( <TodoTr key={todo._id} {...todo} /> )
+        })
+      }
     }
     return (
         <div className="row">

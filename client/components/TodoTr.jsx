@@ -10,9 +10,6 @@ class TodoTr extends React.Component {
   constructor(props){
     super(props);
   }
-  deleteTodo(id){
-    return this.props.deleteTodo(id);
-  }
   render(){
     let {_id, text, completed, completedAt, createdAt} = this.props
     return (
@@ -21,7 +18,7 @@ class TodoTr extends React.Component {
         <td>{createdAt}</td>
         <td>{(completed)? <span className="glyphicon glyphicon-ok"></span> : <span className="glyphicon glyphicon-minus"></span>}</td>
         <td>{(completedAt)? Moment(completedAt).format("MM/DD/YYYY"): <span className="glyphicon glyphicon-minus"></span>}</td>
-        <TodoTdOperators id={_id} deleteTodo={this.deleteTodo.bind(this)}/>
+        <TodoTdOperators id={_id} />
       </tr>
     );
   }

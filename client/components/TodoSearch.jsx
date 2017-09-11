@@ -1,13 +1,16 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
+import * as actions from 'actions';
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
 
 class TodoSearch extends React.Component {
   constructor(props){
     super(props);
-    this.state = {}
   }
   onChange(){
+    this.props.setCompleted(this.refs.completedVar.value);
     this.props.onChange(this.refs.completedVar.value);
   }
   render(){
@@ -27,11 +30,9 @@ class TodoSearch extends React.Component {
   }
 }
 
-TodoSearch.defaultProps = {
-
-};
-
-TodoSearch.propTypes = {
-
+function mapStateToProps({completed}){
+  return {
+    completed
+  }
 }
-export default TodoSearch;
+export default connect(mapStateToProps, actions)(TodoSearch);

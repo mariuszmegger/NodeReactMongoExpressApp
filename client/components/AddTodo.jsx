@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
+import * as actions from 'actions';
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
 import Todos from 'Todos';
@@ -9,21 +11,11 @@ import Todos from 'Todos';
 class AddTodo extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      message: null
-    }
-
     this.addTodo = this.addTodo.bind(this);
   }
   addTodo(e){
     e.preventDefault();
-    var {dispatch} = this.props;
-    dispatch(actions.addTodo(todoText));
-    var todos = new Todos();
-    todos.addTodo({text:this.refs.todoText.value}).then((res) => {
-    }).catch((e) => {
-      console.log(e);
-    });
+    this.props.addTodo(this.refs.todoText.value);
   }
   render(){
     return (
@@ -54,4 +46,4 @@ AddTodo.defaultProps = {
 AddTodo.propTypes = {
 
 }
-export default AddTodo;
+export default connect(null, actions)(AddTodo);

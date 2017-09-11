@@ -3,6 +3,7 @@ import {GET_SINGLE_TODO} from '../actions/types';
 import {ADD_TODO} from '../actions/types';
 import {EDIT_TODO} from '../actions/types';
 import {DELETE_TODO} from '../actions/types';
+import {SET_COMPLETED} from '../actions/types';
 
 
 export var manageTodosReducer = (state = [], action) => {
@@ -17,6 +18,15 @@ export var manageTodosReducer = (state = [], action) => {
       return action.payload || false;
     case DELETE_TODO:
       return action.payload || false;
+    default:
+      return state;
+  };
+};
+
+export var setCompletedReducer = (state = false, action) => {
+  switch (action.type) {
+    case SET_COMPLETED:
+      return action.payload || 'xxx';
     default:
       return state;
   };

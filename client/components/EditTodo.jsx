@@ -3,9 +3,8 @@ import {hashHistory} from 'react-router';
 import {Link} from 'react-router';
 
 import TodoAPI from 'TodoAPI';
-import UserAPI from 'UserAPI';
-import Todos from 'Todos';
 
+// This was intentionaly left in React without Redux to show some basic React code.
 
 class EditTodo extends React.Component {
   constructor(props){
@@ -22,11 +21,8 @@ class EditTodo extends React.Component {
     this.setState({text: e.target.value});
   }
 
-  handleCheckboxClick(e){
-
-      console.log(e.target.value);
+  handleCheckboxClick(){
     this.setState({completed: !this.state.completed });
-      console.log(this.state);
   }
 
   componentWillMount(){
@@ -34,7 +30,7 @@ class EditTodo extends React.Component {
      .then((res) => {
        this.setState({text: res.data.todo.text, completed: res.data.todo.completed});
      })
-     .catch(function (error) {
+     .catch((error) => {
        console.log(error);
      });
   }
@@ -49,21 +45,18 @@ class EditTodo extends React.Component {
   editSingleTodo(e){
     e.preventDefault();
     let todoAPI = new TodoAPI();
-    console.log(this.state);
     todoAPI.updateTodo({
       _id: this.props.params.id,
       text:this.state.text,
       completed: this.state.completed
     }).then((res) => {
       hashHistory.push('/todos');
-      console.log('bbb');
     }).catch((e) => {
       console.log(e);
     });
   }
   render(){
     let {text, completed} = this.state;
-    console.log(completed);
     return (
       <div className="container">
         <div className="row">
@@ -79,7 +72,6 @@ class EditTodo extends React.Component {
               <button type="submit" className="btn btn-default">Submit</button>
               <button className="btn btn-default backButton"><Link to="/todos">Go Back </Link></button>
             </form>
-
           </div>
         </div>
       </div>
@@ -87,10 +79,4 @@ class EditTodo extends React.Component {
   }
 }
 
-EditTodo.defaultProps = {
-};
-
-EditTodo.propTypes = {
-
-}
 export default EditTodo;

@@ -1,8 +1,13 @@
 import React from 'react';
+import {Link} from 'react-router';
+import $ from 'jQuery';
+import {connect} from 'react-redux';
+
+import * as actions from 'actions';
 import TodoAPI from 'TodoAPI';
 import UserAPI from 'UserAPI';
-import {Link, IndexLink} from 'react-router';
-import $ from 'jQuery';
+
+
 
 
 class TodoTdOperators extends React.Component {
@@ -10,17 +15,9 @@ class TodoTdOperators extends React.Component {
     super(props);
     this.state = {}
   }
-  getTodos(){
-    var TodoAPIVar = new TodoAPI();
-    return TodoAPIVar.getTodos();
-  }
   deleteTodo(){
     let {id} = this.props
-    return this.props.deleteTodo(id).then((res) => {
-      if(res.data){
-        $('#'+id).parent('tr').hide(400);
-      }
-    })
+    this.props.deleteTodo(id);
   }
   render(){
     let {id} = this.props
@@ -30,4 +27,4 @@ class TodoTdOperators extends React.Component {
   }
 }
 
-export default TodoTdOperators;
+export default connect(null, actions)(TodoTdOperators);
