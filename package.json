@@ -13,7 +13,7 @@
     "test-server-watch": "nodemon --exec 'npm test-server'"
   },
   "engines": {
-    "node": "8.0.0"
+    "node": "6.11.3"
   },
   "author": "",
   "license": "ISC",
