@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 
 import * as actions from 'actions';
 import UserAPI from 'UserAPI';
-import NavFormSection from 'NavFormSection'
 
 class Nav extends React.Component {
 

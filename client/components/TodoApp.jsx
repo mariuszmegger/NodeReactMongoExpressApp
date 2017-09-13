@@ -10,7 +10,6 @@ class TodoApp extends React.Component {
     super(props);
   }
   componentDidMount(){
-    console.log(this.props);
     this.props.getLoggedinUser();
   }
   render(){

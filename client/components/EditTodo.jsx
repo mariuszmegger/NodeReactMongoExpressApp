@@ -70,7 +70,7 @@ class EditTodo extends React.Component {
                   <label><input type="checkbox" checked={(completed)? 'checked': null} onChange={this.handleCheckboxClick}/>Completed</label>
               </div>
               <button type="submit" className="btn btn-default">Submit</button>
-              <button className="btn btn-default backButton"><Link to="/todos">Go Back </Link></button>
+              <button type="button" className="btn btn-default backButton"><Link to="/todos">Go Back </Link></button>
             </form>
           </div>
         </div>

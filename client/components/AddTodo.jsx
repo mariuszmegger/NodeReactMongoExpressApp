@@ -30,7 +30,7 @@ class AddTodo extends React.Component {
                 <input type="text" className="form-control" id="addTodo" placeholder="Type title in here" ref="todoText"/>
               </div>
               <button type="submit" className="btn btn-default">Add Todo</button>
-              <button className="btn btn-default backButton"><Link to="/todos">Go Back</Link></button>
+              <button type="button" className="btn btn-default backButton"><Link to="/todos">Go Back</Link></button>
             </form>
           </div>
         </div>
@@ -39,11 +39,4 @@ class AddTodo extends React.Component {
   }
 }
 
-AddTodo.defaultProps = {
-
-};
-
-AddTodo.propTypes = {
-
-}
 export default connect(null, actions)(AddTodo);

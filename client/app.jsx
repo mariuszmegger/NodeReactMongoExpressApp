@@ -1,14 +1,10 @@
 import React  from 'react';
 import ReactDOM  from 'react-dom';
-
-
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
-
 import {Provider} from 'react-redux';
+
 var store = require('configureStore').configure();
 import actions from 'actions';
-
-
 import TodoApp from 'TodoApp';
 import UserAPI from 'UserAPI';
 import Todos from 'Todos';
@@ -17,23 +13,19 @@ import EditTodo from 'EditTodo';
 import Login from 'Login';
 import Dashboard from 'Dashboard';
 
-// Load foundation
-// require('style!css!foundation-sites/dist/foundation.min.css')
 
-// App css
 require('style!css!sass!applicationStyles')
 // require('style!css!bootstrap/dist/css/bootstrap.min.css')
 
 store.subscribe(() => {
   var state = store.getState();
-  console.log('New state', state);
+  // console.log('New state', state);
 });
 
 function requireAuth(nextState, replace){
   let userAPI = new UserAPI;
   userAPI.checkUserAuth();
 }
-
 
 ReactDOM.render(
   <Provider store={store}>

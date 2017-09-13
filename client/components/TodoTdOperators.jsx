@@ -4,11 +4,6 @@ import $ from 'jQuery';
 import {connect} from 'react-redux';
 
 import * as actions from 'actions';
-import TodoAPI from 'TodoAPI';
-import UserAPI from 'UserAPI';
-
-
-
 
 class TodoTdOperators extends React.Component {
   constructor(props){

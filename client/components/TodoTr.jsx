@@ -1,9 +1,6 @@
 import React from 'react';
 import Moment from 'moment';
-// const {ObjectID} = require('mongodb');
 
-import TodoAPI from 'TodoAPI';
-import UserAPI from 'UserAPI';
 import TodoTdOperators from 'TodoTdOperators';
 
 class TodoTr extends React.Component {
@@ -24,11 +21,4 @@ class TodoTr extends React.Component {
   }
 }
 
-TodoTr.defaultProps = {
-
-};
-
-TodoTr.propTypes = {
-
-}
 export default TodoTr;

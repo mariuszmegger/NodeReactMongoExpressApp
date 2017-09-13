@@ -1,12 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
-import TodoAPI from 'TodoAPI';
-import UserAPI from 'UserAPI';
-import TodoTr from 'TodoTr';
 import $ from 'jQuery';
-import dt from 'datatables.net';
 
-
+import TodoTr from 'TodoTr';
 
 class TodoTable extends React.Component {
   constructor(props){
@@ -46,11 +42,4 @@ class TodoTable extends React.Component {
   }
 }
 
-TodoTable.defaultProps = {
-
-};
-
-TodoTable.propTypes = {
-
-}
 export default TodoTable;

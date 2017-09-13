@@ -69,13 +69,11 @@ export var addTodo = (text) => async dispatch =>{
 export var editTodo = (todo) => async dispatch =>{
   const todoAPI = new TodoAPI()
   const res = await todoAPI.updateTodo(todo);
-  console.log(res);
 };
 
 export var deleteTodo = (id) => async dispatch =>{
   const todoAPI = new TodoAPI()
   const res = await todoAPI.deleteTodo(id);
-  console.log(res);
   if(res){
     console.log('vvv');
       $('#'+id).parent('tr').hide(400);

@@ -13,7 +13,8 @@ class Dashboard extends React.Component {
             <div className="page-header">
               <h2>Application Info </h2>
             </div>
-              <p>Application was created to show some of my skills in MEAN stack</p>
+              <p>Application was created to show some of my skills in MEAN stack.</p>
+              <p>It's not fully finished to be ready for production.</p>
               <h4>Technologies used:</h4>
               1. <b>Backend</b>
               <ul>
@@ -36,7 +37,6 @@ class Dashboard extends React.Component {
               </ul>
               4. <b>Testing</b>
               <ul>
-                <li>Karma</li>
                 <li>Mocha</li>
                 <li>Expect</li>
               </ul>

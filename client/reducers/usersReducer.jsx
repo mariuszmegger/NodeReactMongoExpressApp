@@ -7,10 +7,7 @@ import {REGISTER_USER} from '../actions/types';
 export var manageUserReducer = (state = null, action) => {
   switch (action.type) {
     case REGISTER_USER:
-      return {
-        todos: action.payload || false,
-        completed: action.completed
-      }
+      return action.payload || false;
     case LOGIN_USER:
       return action.payload || false;
     case LOGOUT_USER:
